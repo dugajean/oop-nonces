@@ -1,3 +1,3 @@
 ## Wordpress Nonces for Inpsyde
 
-* Create base class with methods
+* Create base class with methods.

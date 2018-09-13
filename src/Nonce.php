@@ -52,7 +52,7 @@ class Nonce
      * @param  boolean $echo
      * @return string
      */
-    public function nonceField($action = null, $name = null, $referer = true, $echo = true)
+    public function nonceField($action = null, $name = '_wpnonce', $referer = true, $echo = true)
     {
 
     }
