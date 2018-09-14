@@ -2,11 +2,10 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use Nonces\Nonce;
+use Nonces\NonceMaker;
 
 $nonce = new Nonce;
-echo htmlentities($nonce->makeField());
+$field = NonceMaker::field($nonce);
+echo htmlentities($field);
 
-$nonce2 = new Nonce($nonce->get());
-
-
-var_dump($nonce->verify($nonce2));
+var_dump(Nonce::verify(new Nonce($nonce->get())));

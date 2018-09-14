@@ -18,5 +18,8 @@
 	    "psr-4": {
 	        "Nonces\\": "src/"
 	    }
-	}
+	},
+    "autoload-dev": {
+        "psr-4": { "Nonces\\Tests\\": "tests/" }
+    }
 }

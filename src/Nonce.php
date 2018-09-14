@@ -20,25 +20,31 @@ class Nonce
     private $action;
 
     /**
+     * @var string
+     */
+    private $name;
+
+    /**
      * @param string  $key
      * @param string|integer $action
      */
-    public function __construct($key = null, $action = -1)
+    public function __construct($key = null, $action = -1, $name = '_wpnonce')
     {
         $this->key = $key;
         $this->action = $action;
+        $this->name = $name;
     }
 
     /**
      * Generate a nonce.
      *
-     * @return string
+     * @return self
      */
-    private function create()
+    public function create()
     {
         $token = session_id();
-        $tick = $this->tick();
-        $hash = crypt($tick . '|' . $this->action . '|' . $token, $this->getSalt());
+        $tick = self::tick();
+        $hash = crypt($tick . '|' . $this->action() . '|' . $token, self::salt());
 
         $this->key = substr($hash, -12, 10);
 
@@ -46,46 +52,27 @@ class Nonce
     }
 
     /**
-     * @return float
-     */
-    private function tick()
-    {
-        $nonceLife = 86.400; // ??? To be checked...
-
-        return ceil(time() / ( $nonceLife / 2 ));
-    }
-
-    /**
-     * Return properly sized salt.
-     *
-     * @return string
-     */
-    private function getSalt()
-    {
-        return substr(self::SALT, 0, CRYPT_SALT_LENGTH);
-    }
-
-    /**
      * Verifies a nonce.
      *
      * @param  Nonce $nonce
-     * @return boolean
+     * @return integer|boolean
      */
-    public function verify(Nonce $nonce)
+    public static function verify(Nonce $nonce)
     {
         if (empty($nonce->get())) {
             return false;
         }
 
         $token = session_id();
-        $tick = $this->tick();
+        $tick = self::tick();
+        $salt = self::salt();
 
-        $expected = substr(crypt($tick . '|' . $nonce->action() . '|' . $token, $this->getSalt()), -12, 10);
+        $expected = substr(crypt($tick . '|' . $nonce->action() . '|' . $token, $salt), -12, 10);
         if ($expected == $nonce->get()) {
             return 1;
         }
 
-        $expected = substr(crypt(($tick - 1) . '|' . $nonce->action() . '|' . $token, $this->getSalt()), -12, 10);
+        $expected = substr(crypt(($tick - 1) . '|' . $nonce->action() . '|' . $nonce, $salt), -12, 10);
         if ($expected == $nonce->get()) {
             return 2;
         }
@@ -102,55 +89,50 @@ class Nonce
     }
 
     /**
-     * @return string|integer
+     * @return mixed
      */
-    public function action()
+    public function action($action = null)
     {
-        return $this->action;
-    }
-
-    /**
-     * @param string|integer $action
-     */
-    private function setAction($action)
-    {
-        if ($action !== null) {
-            $this->action = $action;
+        if ($action === null) {
+            return $this->action;
         }
+
+        $this->action = $action;
 
         return $this;
     }
 
     /**
-     * Create a nonce url.
-     *
-     * @param  string $actionUrl
-     * @param  string|integer $action
-     * @param  string $name
-     * @return string
+     * @return string|self
      */
-    public function makeUrl($actionUrl, $action = null, $name = '_wpnonce')
+    public function name($name = null)
     {
-        return esc_html(add_query_arg($name, $this->setAction($action)->create()->get(), $actionurl));
+        if ($name === null) {
+            return $this->name;
+        }
+
+        $this->name = $name;
+
+        return $this;
     }
 
     /**
-     * Create a nonce HTML form field.
+     * @return float
+     */
+    public static function tick()
+    {
+        $nonceLife = 86.400; // ??? To be checked...
+
+        return ceil(time() / ( $nonceLife / 2 ));
+    }
+
+    /**
+     * Return properly sized salt.
      *
-     * @param  string  $action
-     * @param  string  $name
-     * @param  boolean $referer
-     * @param  boolean $echo
      * @return string
      */
-    public function makeField($action = null, $name = '_wpnonce', $echo = true)
+    public static function salt()
     {
-        $nonceField = '<input type="hidden" id="' . $name . '" name="' . $name . '" value="' . $this->setAction($action)->create()->get() . '" />';
-
-        if ($echo) {
-            echo $nonceField;
-        }
-
-        return $nonceField;
+        return substr(self::SALT, 0, CRYPT_SALT_LENGTH);
     }
 }
