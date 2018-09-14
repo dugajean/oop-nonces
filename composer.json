@@ -1,5 +1,22 @@
 {
+    "name": "dugajean/inpsyde-nonces",
+    "description": "Wordpress Nonces for Inpsyde the OOP way.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Dugi",
+            "email": "dugajean@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
     "require-dev": {
-        "inpsyde/php-coding-standards": "^0.13.3"
-    }
+        "inpsyde/php-coding-standards": "^0.13.3",
+        "phpunit/phpunit": "^7"
+    },
+    "autoload": {
+	    "psr-4": {
+	        "Nonces\\": "src/"
+	    }
+	}
 }
