@@ -50,7 +50,7 @@ class Nonce
      */
     private function tick()
     {
-        $nonceLife = 86.400;
+        $nonceLife = 86.400; // ??? To be checked...
 
         return ceil(time() / ( $nonceLife / 2 ));
     }
