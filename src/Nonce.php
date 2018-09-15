@@ -32,8 +32,8 @@ abstract class Nonce
     public function __construct($hash = null, $action = -1, $name = '_wpnonce')
     {
         $this->hash = $hash;
-        $this->action = $action;
-        $this->name = $name;
+        $this->action($action);
+        $this->name($name);
     }
 
     /**
@@ -43,7 +43,7 @@ abstract class Nonce
      */
     public function create()
     {
-        $this->hash = self::generateHash($this->action(), self::tick());
+        $this->hash = $this->generateHash();
 
         return $this;
     }
@@ -62,17 +62,31 @@ abstract class Nonce
         
         $tick = self::tick();
         
-        $expected = self::generateHash($nonce->action(), $tick);
+        $expected = $nonce->generateHash($tick);
         if (safeEquals($expected, $nonce->hash())) {
             return 1;
         }
 
-        $expected = self::generateHash($nonce->action(), $tick - 1);
+        $expected = $nonce->generateHash($nonce->action(), $tick - 1);
         if (safeEquals($expected, $nonce->hash())) {
             return 2;
         }
 
         return false;
+    }
+
+    /**
+     * Hash and cut a nonce hash.
+     * 
+     * @param  string|integer $action
+     * @param  integer $tick
+     * @return string
+     */
+    private function generateHash($tick = null)
+    {
+        $tick = $tick ? : self::tick();
+
+        return substr(md5($tick . '|' . $this->action() . '|' . session_id() . '|' . self::salt()), -12, 10);
     }
 
     /**
@@ -111,18 +125,6 @@ abstract class Nonce
         $this->name = $name;
 
         return $this;
-    }
-
-    /**
-     * Hash and cut a nonce hash.
-     * 
-     * @param  string|integer $action
-     * @param  integer $tick
-     * @return string
-     */
-    private static function generateHash($action, $tick)
-    {
-        return substr(md5($tick . '|' . $action . '|' . session_id() . '|' . self::salt()), -12, 10);
     }
 
     /**

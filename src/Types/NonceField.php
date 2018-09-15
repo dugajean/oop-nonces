@@ -20,7 +20,7 @@ class NonceField extends Nonce
 	public function __construct($hash = null, $action = -1, $name = '_wpnonce', $echo = true)
 	{
 		parent::__construct($hash, $action, $name);
-		$this->echo = $echo;
+		$this->echo($echo);
 	}
 
 	/**

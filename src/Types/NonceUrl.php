@@ -20,7 +20,7 @@ class NonceUrl extends Nonce
 	public function __construct($hash = null, $action = -1, $name = '_wpnonce', $url = '')
 	{
 		parent::__construct($hash, $action, $name);
-		$this->url = $url;
+		$this->url($url);
 	}
 
 	/**
@@ -31,7 +31,8 @@ class NonceUrl extends Nonce
 	public function get()
 	{
 		$url = str_replace('&amp;', '&', $this->url());
-        return $this->addQueryArg($this->name(), $this->create()->hash(), $this->url());
+		
+        return $this->addQueryArg($this->name(), $this->create()->hash(), $url);
 	}
 
 	/**
