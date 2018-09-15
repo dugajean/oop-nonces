@@ -36,4 +36,13 @@ class NonceTest extends TestCase
 
         $this->assertFalse($result);
     }
+
+    public function test_verification_with_empty_nonce()
+    {
+        $nonceMock = $this->getMockForAbstractClass(Nonce::class);
+
+        $result = Nonce::verify($nonceMock);
+
+        $this->assertFalse($result);
+    }
 }
