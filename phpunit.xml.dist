@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         convertErrorsToExceptions="true"
+<phpunit convertWarningsToExceptions="true"
          convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
+         convertErrorsToExceptions="true"
+         bootstrap="vendor/autoload.php"
+         backupStaticAttributes="false"
          processIsolation="false"
-         stopOnFailure="false">
+         backupGlobals="false"
+         stopOnFailure="false"
+         colors="true"
+         stderr="true">
     <testsuites>
         <testsuite name="Wordpress Nonces Tester">
             <directory>./tests</directory>

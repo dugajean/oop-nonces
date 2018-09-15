@@ -2,7 +2,7 @@
 
 namespace Nonces;
 
-class Nonce
+abstract class Nonce
 {
     /**
      * Salt to help generate a secure nonce.
@@ -12,7 +12,7 @@ class Nonce
     /**
      * @var string
      */
-    private $key;
+    private $hash;
 
     /**
      * @var string|integer
@@ -25,12 +25,13 @@ class Nonce
     private $name;
 
     /**
-     * @param string  $key
+     * @param string  $hash
      * @param string|integer $action
+     * @param string $name
      */
-    public function __construct($key = null, $action = -1, $name = '_wpnonce')
+    public function __construct($hash = null, $action = -1, $name = '_wpnonce')
     {
-        $this->key = $key;
+        $this->hash = $hash;
         $this->action = $action;
         $this->name = $name;
     }
@@ -42,11 +43,7 @@ class Nonce
      */
     public function create()
     {
-        $token = session_id();
-        $tick = self::tick();
-        $hash = crypt($tick . '|' . $this->action() . '|' . $token, self::salt());
-
-        $this->key = substr($hash, -12, 10);
+        $this->hash = self::generateHash($this->action(), self::tick());
 
         return $this;
     }
@@ -59,33 +56,33 @@ class Nonce
      */
     public static function verify(Nonce $nonce)
     {
-        if (empty($nonce->get())) {
+        if (empty($nonce->hash())) {
             return false;
         }
-
-        $token = session_id();
+        
         $tick = self::tick();
-        $salt = self::salt();
-
-        $expected = substr(crypt($tick . '|' . $nonce->action() . '|' . $token, $salt), -12, 10);
-        if ($expected == $nonce->get()) {
+        
+        $expected = self::generateHash($nonce->action(), $tick);
+        if (safeEquals($expected, $nonce->hash())) {
             return 1;
         }
 
-        $expected = substr(crypt(($tick - 1) . '|' . $nonce->action() . '|' . $nonce, $salt), -12, 10);
-        if ($expected == $nonce->get()) {
+        $expected = self::generateHash($nonce->action(), $tick - 1);
+        if (safeEquals($expected, $nonce->hash())) {
             return 2;
         }
+
+        return false;
     }
 
     /**
-     * Returns the nonce.
+     * Returns the nonce hash.
      *
      * @return string
      */
-    public function get()
+    public function hash()
     {
-        return $this->key;
+        return $this->hash;
     }
 
     /**
@@ -117,13 +114,25 @@ class Nonce
     }
 
     /**
+     * Hash and cut a nonce hash.
+     * 
+     * @param  string|integer $action
+     * @param  integer $tick
+     * @return string
+     */
+    private static function generateHash($action, $tick)
+    {
+        return substr(md5($tick . '|' . $action . '|' . session_id() . '|' . self::salt()), -12, 10);
+    }
+
+    /**
      * @return float
      */
-    public static function tick()
+    private static function tick()
     {
-        $nonceLife = 86.400; // ??? To be checked...
+        $nonceLife = 86.400;
 
-        return ceil(time() / ( $nonceLife / 2 ));
+        return ceil(time() / ($nonceLife / 2));
     }
 
     /**
@@ -131,8 +140,15 @@ class Nonce
      *
      * @return string
      */
-    public static function salt()
+    private static function salt()
     {
         return substr(self::SALT, 0, CRYPT_SALT_LENGTH);
     }
+
+    /**
+     * Nonce types need to return their nonce-d data according to their needs.
+     * 
+     * @return string
+     */
+    abstract public function get();
 }

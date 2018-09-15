@@ -15,9 +15,8 @@
         "phpunit/phpunit": "^7"
     },
     "autoload": {
-	    "psr-4": {
-	        "Nonces\\": "src/"
-	    }
+	    "psr-4": {"Nonces\\": "src/"},
+        "files": ["src/Helpers/utils.php"]
 	},
     "autoload-dev": {
         "psr-4": { "Nonces\\Tests\\": "tests/" }
