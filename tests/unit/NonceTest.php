@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Nonces\Tests\Unit;
 
 use Nonces\Nonce;
