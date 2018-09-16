@@ -29,7 +29,7 @@ abstract class Nonce
      * @param string|integer $action
      * @param string $name
      */
-    public function __construct($hash = null, $action = -1, $name = '_wpnonce')
+    public function __construct($hash = null, $action = '-1', $name = '_wpnonce')
     {
         $this->hash = $hash;
         $this->action($action);
@@ -63,12 +63,12 @@ abstract class Nonce
         $tick = self::tick();
         
         $expected = $nonce->generateHash($tick);
-        if (safeEquals($expected, $nonce->hash())) {
+        if (self::safeEquals($expected, $nonce->hash())) {
             return 1;
         }
 
         $expected = $nonce->generateHash($nonce->action(), $tick - 1);
-        if (safeEquals($expected, $nonce->hash())) {
+        if (self::safeEquals($expected, $nonce->hash())) {
             return 2;
         }
 
@@ -77,7 +77,7 @@ abstract class Nonce
 
     /**
      * Hash and cut a nonce hash.
-     * 
+     *
      * @param  string|integer $action
      * @param  integer $tick
      * @return string
@@ -128,6 +128,31 @@ abstract class Nonce
     }
 
     /**
+     * Timing attack safe string comparison
+     * Compares two strings using the same time whether they're equal or not.
+     *
+     * Copied from Wordpress.
+     *
+     * @param string $expected Expected string.
+     * @param string $actual Actual, user supplied, string.
+     * @return bool Whether strings are equal.
+     */
+    private static function safeEquals($expected, $actual)
+    {
+        $expectedLen = strlen($expected);
+        if ($expectedLen !== strlen($actual)) {
+            return false;
+        }
+
+        $result = 0;
+        for ($i = 0; $i < $expectedLen; $i++) {
+            $result |= ord($expected[$i]) ^ ord($actual[$i]);
+        }
+
+        return $result === 0;
+    }
+
+    /**
      * @return float
      */
     private static function tick()
@@ -149,7 +174,7 @@ abstract class Nonce
 
     /**
      * Nonce types need to return their nonce-d data according to their needs.
-     * 
+     *
      * @return string
      */
     abstract public function get();

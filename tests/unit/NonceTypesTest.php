@@ -7,9 +7,9 @@ use Nonces\Types\NonceUrl;
 use Nonces\Types\NonceField;
 use PHPUnit\Framework\TestCase;
 
-class NonceMakerTest extends TestCase
+class NonceTypesTest extends TestCase
 {
-    public function test_nonce_url_creation_no_params()
+    public function testNonceUrlCreationNoParams()
     {
         $nonce = (new NonceUrl(null, 'make-post-url=100', 'create_url'))->url('http://inpsyde.local');
 
@@ -19,7 +19,7 @@ class NonceMakerTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_nonce_url_creation_with_params()
+    public function testNonceUrlCreationWithParams()
     {
         $nonceUrl = (new NonceUrl(null, 'make-post-url=100', 'create_url'))->url('http://inpsyde.local?param1=myparamvalue');
 
@@ -29,7 +29,7 @@ class NonceMakerTest extends TestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_nonce_field_creation()
+    public function testNonceFieldCreation()
     {
         $nonceField = (new nonceField(null, 'update-post=150', 'post_id'))->echo(false);
 

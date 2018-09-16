@@ -10,7 +10,12 @@ class NonceTest extends TestCase
     /**
      * @var Nonce
      */
-    private $firstMock, $secondMock;
+    private $firstMock;
+
+    /**
+     * @var Nonce
+     */
+    private $secondMock;
 
     public function setUp()
     {
@@ -21,7 +26,7 @@ class NonceTest extends TestCase
         $this->secondMock = $this->getMockForAbstractClass(Nonce::class, [$this->firstMock->hash()]);
     }
 
-    public function test_nonce_verification()
+    public function testNonceVerification()
     {
         $nonce = $this->firstMock;
 
@@ -30,14 +35,14 @@ class NonceTest extends TestCase
         $this->assertGreaterThan(0, $result);
     }
 
-    public function test_nonce_verification_with_different_data()
+    public function testNonceVerificationWithDifferentData()
     {
         $result = Nonce::verify($this->secondMock);
 
         $this->assertFalse($result);
     }
 
-    public function test_verification_with_empty_nonce()
+    public function testVerificationWithEmptyNonce()
     {
         $nonceMock = $this->getMockForAbstractClass(Nonce::class);
 
