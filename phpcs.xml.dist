@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<ruleset name="MyProjectCodingStandard">
+<ruleset name="WordpressNoncesCodingStandard">
 	<file>./src</file>
 	<file>./tests</file>
-	<config name="text_domain" value="my-project"/>
+	<config name="text_domain" value="wordpress-nonces"/>
 	<rule ref="Inpsyde">
 		<exclude name="Wordpress"/>
 	</rule>
