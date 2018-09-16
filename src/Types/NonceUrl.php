@@ -34,7 +34,7 @@ class NonceUrl extends Nonce
     {
         $url = str_replace('&amp;', '&', $this->url());
         
-        return $this->addQueryArg($this->name(), $this->create()->hash(), $url);
+        return self::addQueryArg($this->name(), $this->create()->hash(), $url);
     }
 
     /**
@@ -59,7 +59,7 @@ class NonceUrl extends Nonce
      * @param string $value
      * @param string $url
      */
-    private function addQueryArg(string $name, string $value, string $url): string
+    private static function addQueryArg(string $name, string $value, string $url): string
     {
         $query = parse_url($url, PHP_URL_QUERY);
         $connector = $query ? '&' : '?';

@@ -69,7 +69,7 @@ abstract class Nonce
             return 1;
         }
 
-        $expected = $nonce->generateHash($nonce->action(), $tick - 1);
+        $expected = $nonce->generateHash($tick - 1);
         if (self::safeEquals($expected, $nonce->hash())) {
             return 2;
         }
