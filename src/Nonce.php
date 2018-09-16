@@ -80,8 +80,8 @@ abstract class Nonce
     /**
      * Hash and cut a nonce hash.
      *
-     * @param  string|int $action
-     * @param  int $tick
+     * @param float $tick
+     *
      * @return string
      */
     private function generateHash(float $tick = null): string
@@ -102,6 +102,8 @@ abstract class Nonce
     }
 
     /**
+     * @param null $action
+     *
      * @return mixed
      */
     public function action($action = null)
@@ -116,6 +118,8 @@ abstract class Nonce
     }
 
     /**
+     * @param string|null $name
+     *
      * @return string|self
      */
     public function name(string $name = null)

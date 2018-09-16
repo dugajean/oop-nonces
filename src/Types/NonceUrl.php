@@ -22,6 +22,7 @@ class NonceUrl extends Nonce
     public function __construct(string $hash = null, $action = -1, string $name = '_wpnonce', string $url = '')
     {
         parent::__construct($hash, $action, $name);
+
         $this->url($url);
     }
 
@@ -58,6 +59,7 @@ class NonceUrl extends Nonce
      * @param string $name
      * @param string $value
      * @param string $url
+     * @return string
      */
     private static function addQueryArg(string $name, string $value, string $url): string
     {

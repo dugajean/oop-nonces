@@ -2,7 +2,6 @@
 
 namespace Nonces\Tests\Unit;
 
-use Nonces\Nonce;
 use Nonces\Types\NonceUrl;
 use Nonces\Types\NonceField;
 use PHPUnit\Framework\TestCase;
