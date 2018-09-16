@@ -86,7 +86,7 @@ abstract class Nonce
     {
         $tick = $tick ? : self::tick();
 
-        return substr(md5($tick . '|' . $this->action() . '|' . session_id() . '|' . self::salt()), -12, 10);
+        return substr(md5($tick . '|' . $this->action() . '|' . session_id() . '|' . self::SALT), -12, 10);
     }
 
     /**
@@ -160,16 +160,6 @@ abstract class Nonce
         $nonceLife = 86.400;
 
         return ceil(time() / ($nonceLife / 2));
-    }
-
-    /**
-     * Return properly sized salt.
-     *
-     * @return string
-     */
-    private static function salt()
-    {
-        return substr(self::SALT, 0, CRYPT_SALT_LENGTH);
     }
 
     /**
