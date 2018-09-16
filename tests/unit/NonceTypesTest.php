@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Nonces\Tests\Unit;
 
 use Nonces\Nonce;
@@ -21,7 +23,8 @@ class NonceTypesTest extends TestCase
 
     public function testNonceUrlCreationWithParams()
     {
-        $nonceUrl = (new NonceUrl(null, 'make-post-url=100', 'create_url'))->url('http://inpsyde.local?param1=myparamvalue');
+        $nonceUrl = (new NonceUrl(null, 'make-post-url=100', 'create_url'))
+            ->url('http://inpsyde.local?param1=myparamvalue');
 
         $actual = $nonceUrl->get();
         $expected = 'http://inpsyde.local?param1=myparamvalue&create_url=' . $nonceUrl->hash();

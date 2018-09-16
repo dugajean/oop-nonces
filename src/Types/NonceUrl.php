@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Nonces\Types;
 
 use Nonces\Nonce;
@@ -17,7 +19,7 @@ class NonceUrl extends Nonce
      * @param string $name
      * @param string $url
      */
-    public function __construct($hash = null, $action = -1, $name = '_wpnonce', $url = '')
+    public function __construct(string $hash = null, $action = -1, string $name = '_wpnonce', string $url = '')
     {
         parent::__construct($hash, $action, $name);
         $this->url($url);
@@ -28,7 +30,7 @@ class NonceUrl extends Nonce
      *
      * @return string
      */
-    public function get()
+    public function get(): string
     {
         $url = str_replace('&amp;', '&', $this->url());
         
@@ -57,7 +59,7 @@ class NonceUrl extends Nonce
      * @param string $value
      * @param string $url
      */
-    private function addQueryArg($name, $value, $url)
+    private function addQueryArg(string $name, string $value, string $url): string
     {
         $query = parse_url($url, PHP_URL_QUERY);
         $connector = $query ? '&' : '?';

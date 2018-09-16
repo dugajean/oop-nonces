@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Nonces;
 
 abstract class Nonce
@@ -15,7 +17,7 @@ abstract class Nonce
     private $hash;
 
     /**
-     * @var string|integer
+     * @var string|int
      */
     private $action;
 
@@ -26,10 +28,10 @@ abstract class Nonce
 
     /**
      * @param string  $hash
-     * @param string|integer $action
+     * @param string|int $action
      * @param string $name
      */
-    public function __construct($hash = null, $action = '-1', $name = '_wpnonce')
+    public function __construct(string $hash = null, $action = -1, string $name = '_wpnonce')
     {
         $this->hash = $hash;
         $this->action($action);
@@ -41,7 +43,7 @@ abstract class Nonce
      *
      * @return self
      */
-    public function create()
+    public function create(): self
     {
         $this->hash = $this->generateHash();
 
@@ -52,7 +54,7 @@ abstract class Nonce
      * Verifies a nonce.
      *
      * @param  Nonce $nonce
-     * @return integer|boolean
+     * @return int|boolean
      */
     public static function verify(Nonce $nonce)
     {
@@ -78,11 +80,11 @@ abstract class Nonce
     /**
      * Hash and cut a nonce hash.
      *
-     * @param  string|integer $action
-     * @param  integer $tick
+     * @param  string|int $action
+     * @param  int $tick
      * @return string
      */
-    private function generateHash($tick = null)
+    private function generateHash(float $tick = null): string
     {
         $tick = $tick ? : self::tick();
 
@@ -116,7 +118,7 @@ abstract class Nonce
     /**
      * @return string|self
      */
-    public function name($name = null)
+    public function name(string $name = null)
     {
         if ($name === null) {
             return $this->name;
@@ -137,7 +139,7 @@ abstract class Nonce
      * @param string $actual Actual, user supplied, string.
      * @return bool Whether strings are equal.
      */
-    private static function safeEquals($expected, $actual)
+    private static function safeEquals(string $expected, string $actual): bool
     {
         $expectedLen = strlen($expected);
         if ($expectedLen !== strlen($actual)) {
@@ -155,7 +157,7 @@ abstract class Nonce
     /**
      * @return float
      */
-    private static function tick()
+    private static function tick(): float
     {
         $nonceLife = 86.400;
 
@@ -167,5 +169,5 @@ abstract class Nonce
      *
      * @return string
      */
-    abstract public function get();
+    abstract public function get(): string;
 }

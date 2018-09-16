@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Nonces\Tests\Unit;
 
 use Nonces\Nonce;
@@ -22,7 +24,8 @@ class NonceTest extends TestCase
         @session_start();
         parent::setUp();
 
-        $this->firstMock = $this->getMockForAbstractClass(Nonce::class, [null, 'delete-post=15', 'post_id'])->create();
+        $args = [null, 'delete-post=15', 'post_id'];
+        $this->firstMock = $this->getMockForAbstractClass(Nonce::class, $args)->create();
         $this->secondMock = $this->getMockForAbstractClass(Nonce::class, [$this->firstMock->hash()]);
     }
 
