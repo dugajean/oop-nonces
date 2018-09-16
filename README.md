@@ -13,5 +13,10 @@
 
 -------------------------
 
-* Major refactor by separating Nonce "types" (url and field) into their own specific classes, holding their own logic
-* Added unit tests to cover the changes
+* Major refactor by separating Nonce "types" (url and field) into their own specific classes, holding their own logic.
+* Added unit tests to cover the changes.
+
+-------------------------
+
+* Ran PHPCS and fixed all errors and the majority of the warnings (some type hints were not possible due to multiple types being needed).
+* Overall refactoring and fixing of small issues.
