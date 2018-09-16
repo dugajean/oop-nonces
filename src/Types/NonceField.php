@@ -15,7 +15,7 @@ class NonceField extends Nonce
 
     /**
      * @param string  $hash
-     * @param string|integer $action
+     * @param string|int $action
      * @param string $name
      * @param bool $echo
      */
