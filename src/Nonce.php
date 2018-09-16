@@ -14,17 +14,17 @@ abstract class Nonce
     /**
      * @var string
      */
-    private $hash;
+    protected $hash;
 
     /**
      * @var string|int
      */
-    private $action;
+    protected $action;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @param string  $hash
@@ -84,7 +84,7 @@ abstract class Nonce
      *
      * @return string
      */
-    private function generateHash(float $tick = null): string
+    protected function generateHash(float $tick = null): string
     {
         $tick = $tick ? : self::tick();
 
@@ -143,7 +143,7 @@ abstract class Nonce
      * @param string $actual Actual, user supplied, string.
      * @return bool Whether strings are equal.
      */
-    private static function safeEquals(string $expected, string $actual): bool
+    protected static function safeEquals(string $expected, string $actual): bool
     {
         $expectedLen = strlen($expected);
         if ($expectedLen !== strlen($actual)) {
@@ -161,7 +161,7 @@ abstract class Nonce
     /**
      * @return float
      */
-    private static function tick(): float
+    protected static function tick(): float
     {
         $nonceLife = 86.400;
 
