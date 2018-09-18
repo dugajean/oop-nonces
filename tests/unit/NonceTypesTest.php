@@ -9,6 +9,12 @@ use Nonces\Exceptions\NonceException;
 
 class NonceTypesTest extends TestCase
 {
+    public function setUp()
+    {
+        @session_start();
+        parent::setUp();
+    }
+
     public function testNonceUrlCreationNoParams()
     {
         $nonce = (new NonceUrl(null, 'make-post-url=100', 'create_url'))->url('http://inpsyde.local');
