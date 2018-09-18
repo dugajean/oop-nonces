@@ -1,4 +1,4 @@
-## Wordpress Nonces for Inpsyde
+## OOP Wordpress Nonces
 
 * Create base class with methods.
 * Replicate the methods in an OOP fashion, while maintaining the same functionality.
