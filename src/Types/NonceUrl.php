@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Nonces\Types;
 
-use Nonces\Exceptions\NonceException;
 use Nonces\Nonce;
+use Nonces\Exceptions\NonceException;
 
 class NonceUrl extends Nonce
 {

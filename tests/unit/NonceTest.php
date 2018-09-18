@@ -3,7 +3,7 @@
 namespace Nonces\Tests\Unit;
 
 use Nonces\Nonce;
-use PHPUnit\Framework\TestCase;
+use Nonces\Tests\TestCase;
 
 class NonceTest extends TestCase
 {
@@ -19,7 +19,6 @@ class NonceTest extends TestCase
 
     public function setUp()
     {
-        @session_start();
         parent::setUp();
 
         $args = [null, 'delete-post=15', 'post_id'];
