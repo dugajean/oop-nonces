@@ -5,6 +5,7 @@ namespace Nonces\Tests\Unit;
 use Nonces\Types\NonceUrl;
 use Nonces\Types\NonceField;
 use PHPUnit\Framework\TestCase;
+use Nonces\Exceptions\NonceException;
 
 class NonceTypesTest extends TestCase
 {
@@ -27,6 +28,20 @@ class NonceTypesTest extends TestCase
         $expected = 'http://inpsyde.local?param1=myparamvalue&create_url=' . $nonceUrl->hash();
 
         $this->assertEquals($expected, $actual);
+    }
+
+    public function testNonceUrlCreationWithoutUrl()
+    {
+        $this->expectException(NonceException::class);
+
+        (new NonceUrl(null, 'make-post-url=100', 'create_url'))->get();
+    }
+
+    public function testNonceUrlCreationWithMalformedUrl()
+    {
+        $this->expectException(NonceException::class);
+
+        (new NonceUrl(null, 'make-post-url=100', 'create_url'))->url('notreallyanurl')->get();
     }
 
     public function testNonceFieldCreation()

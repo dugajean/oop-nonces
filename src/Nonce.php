@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Nonces;
 
+use Nonces\Exceptions\NonceException;
+
 abstract class Nonce
 {
     /**
@@ -42,6 +44,7 @@ abstract class Nonce
      * Generate a nonce.
      *
      * @return self
+     * @throws \Nonces\Exceptions\NonceException
      */
     public function create(): self
     {
@@ -54,6 +57,7 @@ abstract class Nonce
      * Verifies a nonce.
      *
      * @return int|boolean
+     * @throws \Nonces\Exceptions\NonceException
      */
     public function verify()
     {
@@ -82,9 +86,14 @@ abstract class Nonce
      * @param float $tick
      *
      * @return string
+     * @throws \Nonces\Exceptions\NonceException
      */
     protected function generateHash(float $tick = null): string
     {
+        if (!session_id()) {
+            throw new NonceException('Unable to generate a secure hash.');
+        }
+
         $tick = $tick ? : self::tick();
 
         return substr(md5($tick . '|' . $this->action() . '|' . session_id() . '|' . self::SALT), -12, 10);

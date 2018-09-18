@@ -27,9 +27,7 @@ class NonceField extends Nonce
     }
 
     /**
-     * Create a nonce HTML form field.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function get(): string
     {

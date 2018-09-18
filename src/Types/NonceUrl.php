@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nonces\Types;
 
+use Nonces\Exceptions\NonceException;
 use Nonces\Nonce;
 
 class NonceUrl extends Nonce
@@ -27,12 +28,12 @@ class NonceUrl extends Nonce
     }
 
     /**
-     * Retrieve the nonce-d URL.
-     *
-     * @return string
+     * @inheritdoc
      */
     public function get(): string
     {
+        $this->validateUrl();
+
         $url = str_replace('&amp;', '&', $this->url());
         $query = parse_url($url, PHP_URL_QUERY);
         $connector = $query ? '&' : '?';
@@ -54,5 +55,21 @@ class NonceUrl extends Nonce
         $this->url = $url;
 
         return $this;
+    }
+
+    /**
+     * @throws \Nonces\Exceptions\NonceException
+     */
+    private function validateUrl()
+    {
+        $url = $this->url();
+
+        if (empty($url)) {
+            throw new NonceException('No URL provided.');
+        }
+
+        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+            throw new NonceException('Malformed URL provided');
+        }
     }
 }
