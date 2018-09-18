@@ -53,24 +53,23 @@ abstract class Nonce
     /**
      * Verifies a nonce.
      *
-     * @param  Nonce $nonce
      * @return int|boolean
      */
-    public static function verify(Nonce $nonce)
+    public function verify()
     {
-        if (empty($nonce->hash())) {
+        if (empty($this->hash())) {
             return false;
         }
         
         $tick = self::tick();
         
-        $expected = $nonce->generateHash($tick);
-        if (self::safeEquals($expected, $nonce->hash())) {
+        $expected = $this->generateHash($tick);
+        if (self::safeEquals($expected, $this->hash())) {
             return 1;
         }
 
-        $expected = $nonce->generateHash($tick - 1);
-        if (self::safeEquals($expected, $nonce->hash())) {
+        $expected = $this->generateHash($tick - 1);
+        if (self::safeEquals($expected, $this->hash())) {
             return 2;
         }
 
