@@ -9,11 +9,14 @@ Nonces in Wordpress are a measure of security to prevent URLs and forms being tu
 In order to create Nonced elements, such as a URL or a hidden form field, you need to know what you need exactly and then instantiate the class, like so:
 
 ```php
-$nonceUrl = new NonceUrl()->url('http://example.com')->get(); // Will output: http://example.com?_wpnonce=somerandomstring
-$nonceField = new NonceField()->get(); // Will output <input type="hidden" id="_wpnonce" name="_wpnonce" value="somerandomstring"/>
+$nonceUrl = new NonceUrl()->url('http://example.com')->get(); 
+// Will output: http://example.com?_wpnonce=somerandomstring
+
+$nonceField = new NonceField()->get(); 
+// Will output: <input type="hidden" id="_wpnonce" name="_wpnonce" value="somerandomstring"/>
 ```
 
-You're then able to pass these variables into your HTMLand use them accordingly.
+You're then able to pass these variables into your HTML and use them accordingly. The example above assumes the use of the default values; You are able to set `action` and `name` in the constructor or using getters in order to make the nonce specific to an action.
 
 When you need to verify a nonce that has been sent to the backend, you can do so by using the verify class, like so:
 
