@@ -4,7 +4,7 @@ Nonces in Wordpress are a measure of security to prevent URLs and forms being tu
 
 **Note:** This is a standalone package and cannot be used with Wordpress without further modification. 
 
-### How it works
+## How it works
 
 In order to create Nonced elements, such as a URL or a hidden form field, you need to know what you need exactly and then instantiate the class, like so:
 
@@ -28,7 +28,7 @@ if ($nonceValid) {
 Instantiating a Nonce type class has more parameters such as action, name etc., which would allow for a different nonce to be generated for each case.
 
 
-### Changelog
+## Changelog
 
 * Fixed bug in testing platform where individual NonceTypes tests weren't passing due to session not being started.
 * Basic refactoring and removal of static methods.
