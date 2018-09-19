@@ -18,7 +18,7 @@ $nonceField = new NonceField()->get();
 
 You're then able to pass these variables into your HTML and use them accordingly. The example above assumes the use of the default values; You are able to set `action` and `name` in the constructor or using getters in order to make the nonce specific to an action.
 
-When you need to verify a nonce that has been sent to the backend, you can do so by using the verify class, like so:
+When you need to verify a nonce that has been sent to the backend, you can do so by using the verify method, like so:
 
 ```php
 $nonceValid = new NonceField($_REQUEST['_wpnonce'])->verify();
