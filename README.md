@@ -16,7 +16,7 @@ $nonceField = new NonceField()->get();
 // Will output: <input type="hidden" id="_wpnonce" name="_wpnonce" value="somerandomstring"/>
 ```
 
-You're then able to pass these variables into your HTML and use them accordingly. The example above assumes the use of the default values; You are able to set `action` and `name` in the constructor or using getters in order to make the nonce specific to an action.
+You're then able to pass these variables into your HTML and use them accordingly. The example above assumes the use of the default values; You are able to set `action` and `name` in the constructor or using setters in order to make the nonce specific to an action.
 
 When you need to verify a nonce that has been sent to the backend, you can do so by using the verify method, like so:
 
@@ -28,8 +28,13 @@ if ($nonceValid) {
 }
 ```
 
-Instantiating a Nonce type class has more parameters such as action, name etc., which would allow for a different nonce to be generated for each case.
+## Requirements
 
+This package requires the use of PHP 7 and above.
+
+## Tests
+
+There is a `tests/` folder demonstrating the functionality of this library as well as the coverage of some edge cases. 
 
 ## Changelog
 
