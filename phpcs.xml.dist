@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ruleset name="WordpressNoncesCodingStandard">
+<ruleset name="WordPressNoncesCodingStandard">
 	<file>./src</file>
 	<file>./tests</file>
 	<config name="text_domain" value="wordpress-nonces"/>
