@@ -32,14 +32,14 @@ if ($nonceValid) {
 
 ###### Usability
 
-* [x] Intuitive API which allows for easy access to needed data.
+* [x] Intuitive API which allows for easy access to needed data. Chaining methods for clarity and expressive code (syntactic sugar).
 * [x] Base class `Nonce` includes all logic necessary to generate nonce hashes.
 * [x] Subclasses have access to all protected methods in order to implement further logic specific to the subclasses.
 
 ###### Extensibility
 
 * [x] Concrete type implementations for nonces are easy to make by inheriting from `Nonce`.
-* [x] Types must implement the `get()` method in order to output their respective nonce attached data. Nothing else is required.
+* [x] Types must implement the `get()` method in order to output their respective nonce attached data. Nothing else is required to create a type.
 * [x] The PSR-4 configuration allows for easy access of each component within the package.
 
 This whole implementation results in a package which is open for extension without needing to touch the core.
