@@ -28,21 +28,13 @@ if ($nonceValid) {
 }
 ```
 
-## Requirements
-
-This package requires the use of PHP 7 and above.
-
-## Tests
-
-There is a `tests/` folder demonstrating the functionality of this library as well as the coverage of some edge cases. 
-
 ## Design Decisions
 
 ###### Usability
 
 * [x] Intuitive API which allows for easy access to needed data.
 * [x] Base class `Nonce` includes all logic necessary to generate nonce hashes.
-* [x] Subclasses have access to all protected methods in order to implement further logic specific to the children.
+* [x] Subclasses have access to all protected methods in order to implement further logic specific to the subclasses.
 
 ###### Extensibility
 
@@ -51,3 +43,11 @@ There is a `tests/` folder demonstrating the functionality of this library as we
 * [x] Composer PSR-4 implementation allows for easy access of each component within the package.
 
 This whole implementation results in a package which is open for extension without needing to touch the core.
+
+## Requirements
+
+This package requires the use of PHP 7 and above.
+
+## Tests
+
+There is a `tests/` folder demonstrating the functionality of this library as well as the coverage of some edge cases. 
