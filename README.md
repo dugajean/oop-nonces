@@ -38,9 +38,9 @@ if ($nonceValid) {
 
 ###### Extensibility
 
-* [x] Concrete implementations for nonces are easy to make by inheriting from `Nonce`.
-* [x] Types must implement the `get()` method in order to output their respective "nonce-d" data.
-* [x] Composer PSR-4 implementation allows for easy access of each component within the package.
+* [x] Concrete type implementations for nonces are easy to make by inheriting from `Nonce`.
+* [x] Types must implement the `get()` method in order to output their respective nonce attached data. Nothing else is required.
+* [x] The PSR-4 configuration allows for easy access of each component within the package.
 
 This whole implementation results in a package which is open for extension without needing to touch the core.
 
