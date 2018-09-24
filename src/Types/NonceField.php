@@ -9,15 +9,16 @@ use Nonces\Nonce;
 class NonceField extends Nonce
 {
     /**
+     * Determine whether the get method should echo out
+     * the field in addition to returning it.
+     *
      * @var bool
      */
     private $echo;
 
     /**
-     * @param string  $hash
-     * @param string|int $action
-     * @param string $name
-     * @param bool $echo
+     * @inheritdoc
+     * @param bool $echo Whether to echo out the field or not.
      */
     public function __construct(string $hash = null, $action = -1, string $name = '_wpnonce', bool $echo = true)
     {
@@ -27,7 +28,11 @@ class NonceField extends Nonce
     }
 
     /**
-     * @inheritdoc
+     * Return a HTML hidden input field containing the nonce.
+     *
+     * E.g: Given the name is "secure_nonce" and a hash with value "4grh349dbll",
+     * the resulting field would look like this:
+     * <input type="hidden" id="secure_nonce" name="secure_nonce" value="4grh349dbll" />
      */
     public function get(): string
     {
@@ -43,8 +48,11 @@ class NonceField extends Nonce
     }
 
     /**
-     * @param  bool $echo
-     * @return bool|self
+     * Fetch or set whether the get method should echo out the field or not.
+     *
+     * @param  bool $echo Optional. If the argument is missing, it will return the current echo value.
+     *                    If a value is provided then it will set echo to that new value and return $this.
+     * @return bool|$this
      */
     public function echo($echo = null)
     {

@@ -1,12 +1,12 @@
-# OOP Wordpress Nonces
+# OOP WordPress Nonces
 
-Nonces in Wordpress are a measure of security to prevent URLs and forms being turned into malicious entities. The functionality of this library is to take Wordpress's nonce functionality and implement it in an object oriented way, resulting in a more intuitive and extensible API.
+Nonces in WordPress are a measure of security to prevent URLs and forms being turned into malicious entities. The functionality of this library is to take WordPress's nonce functionality and implement it in an object oriented way, resulting in a more intuitive and extensible API.
 
-**Note:** This is a standalone package and cannot be used with Wordpress without further modification. 
+**Note:** This is a standalone package and cannot be used with WordPress without further modification. 
 
 ## How it works
 
-In order to create Nonced elements, such as a URL or a hidden form field, you need to know what you need exactly and then instantiate the class, like so:
+In order to create nonce-d entities, such as a URL or a hidden form field, instantiate the respective class:
 
 ```php
 $nonceUrl = new NonceUrl()->url('http://example.com')->get(); 
@@ -36,32 +36,18 @@ This package requires the use of PHP 7 and above.
 
 There is a `tests/` folder demonstrating the functionality of this library as well as the coverage of some edge cases. 
 
-## Changelog
+## Design Decisions
 
-* Fixed bug in testing platform where individual NonceTypes tests weren't passing due to session not being started.
-* Basic refactoring and removal of static methods.
+###### Usability
 
--------------------------
+* [x] Intuitive API which allows for easy access to needed data.
+* [x] Base class `Nonce` includes all logic necessary to generate nonce hashes.
+* [x] Subclasses have access to all protected methods in order to implement further logic specific to the children.
 
-* Ran PHPCS and fixed all errors and the majority of the warnings (some type hints were not possible due to multiple types being needed).
-* Overall refactoring and fixing of small issues.
+###### Extensibility
 
--------------------------
+* [x] Concrete implementations for nonces are easy to make by inheriting from `Nonce`.
+* [x] Types must implement the `get()` method in order to output their respective "nonce-d" data.
+* [x] Composer PSR-4 implementation allows for easy access of each component within the package.
 
-* Major refactor by separating Nonce "types" (url and field) into their own specific classes, holding their own logic.
-* Added unit tests to cover the changes.
-
--------------------------
-
-* Verifying a nonce requires passing a Nonce object. Nonce key, action and name can be set in the constructor.
-* Forming nonce URLs and fields is now separated into its own class to maintain single responsibility for the Nonce class
-  * This will allow for easier testing as well.
-  
-  -------------------------
-
-* Create base class with methods.
-* Replicate the methods in an OOP fashion, while maintaining the same functionality.
-  * Use of functions like `session_id()` until it's clarified if I can use Wordpress functions.
-* Fluid API to work with nonces (mostly used within the class itself).
-
-
+This whole implementation results in a package which is open for extension without needing to touch the core.

@@ -10,7 +10,7 @@
          colors="true"
          stderr="true">
     <testsuites>
-        <testsuite name="Wordpress Nonces Tester">
+        <testsuite name="WordPress Nonces Tester">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>

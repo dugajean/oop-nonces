@@ -1,6 +1,6 @@
 {
     "name": "dugajean/inpsyde-nonces",
-    "description": "Wordpress Nonces for Inpsyde, the OOP way.",
+    "description": "WordPress Nonces for Inpsyde, the OOP way.",
     "type": "library",
     "authors": [
         {
