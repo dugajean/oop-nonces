@@ -44,4 +44,18 @@ class NonceTest extends TestCase
 
         $this->assertFalse($nonceMock->verify());
     }
+
+    public function testGenerateHashOverriding()
+    {
+        Nonce::overrideGenerateHash(function($nonce, $tick, $salt) {
+            return md5($tick . '|' . $nonce->action() . '|' . session_id() . '|' . $salt);
+        });
+
+        $nonceMock = $this->getMockForAbstractClass(Nonce::class, [null, 'delete-post=15', 'post_id'])->create();
+
+        $expectedLength = 32;
+
+        $this->assertGreaterThan(0, $nonceMock->verify());
+        $this->assertEquals($expectedLength, strlen($nonceMock->hash()));
+    }
 }

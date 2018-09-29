@@ -38,6 +38,14 @@ abstract class Nonce
     protected $name;
 
     /**
+     * This is where we store custom logic for hash generating.
+     * Someone might not be satisfied with using session_id() and might want tighter security.
+     *
+     * @var Callable
+     */
+    protected static $hashGenerateCallback = null;
+
+    /**
      * @param string $hash Nonce hash that you want to set for this instance.
      * @param int|string $action The action or purpose of this nonce.
      * @param string $name The field name for this nonce in order to fetch its value.
@@ -101,11 +109,22 @@ abstract class Nonce
      */
     protected function generateHash(float $tick = null): string
     {
+        $tick = $tick ? : self::tick();
+
+        if (self::$hashGenerateCallback !== null) {
+            /**
+             * Calling the overrider if it was set.
+             *
+             * @param Nonce $this Send the current object to allow the developer to access the action etc.
+             * @param float $tick Send over the output of the current tick.
+             * @param string $salt Also send over the salt attached to the Nonce class, developer might use it.
+             */
+            return (self::$hashGenerateCallback)($this, $tick, self::SALT);
+        }
+
         if (!session_id()) {
             throw new NonceException('Unable to generate a secure hash.');
         }
-
-        $tick = $tick ? : self::tick();
 
         return substr(md5($tick . '|' . $this->action() . '|' . session_id() . '|' . self::SALT), -12, 10);
     }
@@ -154,6 +173,16 @@ abstract class Nonce
         $this->name = $name;
 
         return $this;
+    }
+
+    /**
+     * This method sets a different algorithm to handle the generation of a hash.
+     *
+     * @param callable $callback The function that will replace the default logic.
+     */
+    public static function overrideGenerateHash(Callable $callback)
+    {
+        self::$hashGenerateCallback = $callback;
     }
 
     /**

@@ -41,6 +41,7 @@ if ($nonceValid) {
 * [x] Concrete type implementations for nonces are easy to make by inheriting from `Nonce`.
 * [x] Types must implement the `get()` method in order to output their respective nonce attached data.
 * [x] The PSR-4 configuration allows for easy access of each component within the package.
+* [x] Allow overriding the algorithm for generating the hash using the `overrideGenerateHash()` static method for personalized hash generation.
 
 This whole implementation results in a package which is open for extension without needing to touch the core.
 
